@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Arrays;
+import java.util.Comparator;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -20,7 +21,8 @@ import Crypt.KeyData;
 
 
 /***********************************************************************************
-*	Autor: Mr. Maxwell						Version 1.3			04.09.2023			*
+*	Version 1.4					Autor: Mr. Maxwell				08.10.2023			*
+*	Letzte Änderung: Sortierung wurde angepasst (LowerCast)							*
 *	Diese Klasse ist Teil der GUI des KeyPass										*
 *	Erzeugt das List-Fenster, in dem KeyPass Einträge ausgewählt werden können.		*
 ***********************************************************************************/
@@ -51,10 +53,15 @@ class GUI_KeyList extends JFrame
 			strList[i] = jo.getString("ApplicationName");
 		}
 		
-		
-		Arrays.sort(strList);
-		
-		
+		// Sortierung
+		Arrays.sort(strList,new Comparator<String>() 
+		{
+            public int compare(String str1, String str2) 
+            {
+                return str1.toLowerCase().compareTo(str2.toLowerCase());
+            }
+		});
+				
 		JList list = new JList(strList);
 		list.setFont(new Font("Consolas", Font.PLAIN, 11));
 		scrollPane.setViewportView(list);
