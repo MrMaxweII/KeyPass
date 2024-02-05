@@ -58,7 +58,7 @@ public class GUI extends JFrame
 {
 
 	public static final String			progName		= "KeyPass";
-	public static final String			version 		= "V1.3.1";
+	public static final String			version 		= "V1.3.2";
 	public static final String			autor 			= "Mr. Maxwell";
 	public static final String			pubKeySig		= "03291251a267e24ed362241cdaba7c953a52b295c81f92e7fd10df665a6b000441";	 // Der Public-Key für die Signaturprüfung von PlugIns (final)
 	public static 		GUI 			frame;															// Frame dieser GUI
