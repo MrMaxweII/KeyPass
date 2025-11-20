@@ -58,7 +58,7 @@ public class GUI extends JFrame
 {
 
 	public static final String			progName		= "KeyPass";
-	public static final String			version 		= "V1.3.2";
+	public static final String			version 		= "V1.4.1";
 	public static final String			autor 			= "Mr. Maxwell";
 	public static final String			pubKeySig		= "03291251a267e24ed362241cdaba7c953a52b295c81f92e7fd10df665a6b000441";	 // Der Public-Key für die Signaturprüfung von PlugIns (final)
 	public static 		GUI 			frame;															// Frame dieser GUI
@@ -67,11 +67,13 @@ public class GUI extends JFrame
 	public static 		JPanel 			pnl_h_mitte 	= new JPanel();									// Mittlere Teil des Hauptfeldes
 	public static		JPanel 			pnl_h_unten 	= new JPanel();									// Untere Teil des Hauptfeldes
 	public static 		JComboBox 		combo_filename 	= new JComboBox();								// File-Name der Key-Datenbank
+	public static		JLabel 			lbl_id 			= new JLabel("No.:");							// Label ID, hier wird auch das Icon der Anwendung angezeigt.
 	public static		JLabel 			txt_id 			= new JLabel("-1");								// Nummer (ID) des Datenbankeintrages, Index im JSONArry
 	public static		JLabel 			txt_date 		= new JLabel("Unbekanntes Datum");				// Datum der letzten Änderung
 	public static		JLabel 			lbl_TOTP 		= new JLabel("TOTP Geheimschlüssel");			// TOTP Label
 	public static		JLabel 			lbl_TOTP_len 	= new JLabel("TOTP Ausgabezeichen, regulär: 6");// TOTP Label Ausgabelänge
 	public static 		JTextField 		txt_name 		= new JTextField();								// Name der Anwendung 	(Eingabefeld)
+	public static 		JTextField 		txt_group 		= new JTextField();								// Gruppe der Anwendung (Eingabefeld)
 	public static 		JTextField 		txt_userName 	= new JTextField();								// UserName 			(Eingabefeld)
 	public static 		JTextField		txt_url 		= new JTextField();								// Url		 			(Eingabefeld)
 	public static		JTextField		txt_TOTP_Secret	= new JTextField();								// TOTP Geheimschlüssel	(Eingabefeld)
@@ -135,7 +137,8 @@ public class GUI extends JFrame
 		File plugInsFolder 	= new File("plugins");
 		temp.mkdir();
 		plugInsFolder.mkdir();
-		Icons.saveAsPNG(Icons.keyPNG, "temp\\key.png");		
+		Icons.saveAsPNG(Icons.keyPNG,     "temp\\key.png");
+		Icons.saveAsPNG(Icons.keyPNGsmal, "temp\\keySmal.png");
 	}
 	
 	
@@ -149,8 +152,8 @@ public class GUI extends JFrame
 		JTextArea 	txt_info 		= new JTextArea();
 		JLabel 		lbl_key 		= new JLabel(".key");
 		JLabel 		lbl_database 	= new JLabel("Datenbank Name:  ");	
-		JLabel 		lbl_id 			= new JLabel("No.:");	
 		JLabel 		lbl_name 		= new JLabel("Name der Anwendung");
+		JLabel 		lbl_group 		= new JLabel("Gruppe   (optional)");
 		JLabel 		lbl_date 		= new JLabel("Datum der letzten Änderung");
 		JLabel 		lbl_userName 	= new JLabel("User Name");
 		JLabel 		lbl_passwort 	= new JLabel("Passwort");
@@ -166,23 +169,25 @@ public class GUI extends JFrame
 		setBounds(100, 100, 609, 530);
 		setContentPane(contentPane);	
 		
-		lbl_id			.setBounds(10, 2, 19, 14);
-		lbl_name		.setBounds(10, 31, 305, 14);
-		lbl_date		.setBounds(433, 31, 184, 14);
+		lbl_id			.setBounds(10, 2, 39, 16);
+		lbl_name		.setBounds(10, 31, 295, 14);
+		lbl_group		.setBounds(314, 31, 260, 14);
+		lbl_date		.setBounds(314, 2, 184, 14);
 		lbl_userName	.setBounds(10, 77, 294, 20);
 		lbl_passwort	.setBounds(314, 77, 260, 20);
 		lbl_url			.setBounds(10, 156, 81, 22);
 		lbl_TOTP		.setBounds(314, 180, 260, 14);
 		lbl_TOTP_len	.setBounds(314, 214, 233, 14);
 		sp_description	.setBounds(10, 210, 564, 92);
-		txt_id			.setBounds(39, 2, 111, 14);
+		txt_id			.setBounds(55, 2, 91, 14);
 		txt_name		.setBounds(10, 46, 294, 20);
+		txt_group		.setBounds(314, 46, 260, 20);
 		txt_userName	.setBounds(10, 94, 294, 20);
 		txt_passwort	.setBounds(314, 94, 260, 20);
 		txt_url			.setBounds(46, 158, 528, 18);
 		txt_TOTP_Secret	.setBounds(314, 194, 260, 18);
 		txt_TOTP_len	.setBounds(555, 214, 19, 16);
-		txt_date		.setBounds(433, 49, 141, 17);
+		txt_date		.setBounds(445, 2, 129, 17);
 		btn_copy1		.setBounds(10, 114, 39, 18);
 		btn_copy2		.setBounds(314, 114, 39, 18);
 		btn_PWGenerator	.setBounds(433, 135, 141, 18);
@@ -196,6 +201,7 @@ public class GUI extends JFrame
 		pnl_h_oben		.setBackground(color3);
 		lbl_id			.setForeground(color2);
 		lbl_name		.setForeground(color2);
+		lbl_group		.setForeground(color2);
 		lbl_date		.setForeground(color2);
 		lbl_userName	.setForeground(color2);
 		lbl_url			.setForeground(color2);
@@ -215,6 +221,7 @@ public class GUI extends JFrame
 		combo_filename	.setFont(new Font("Arial", Font.PLAIN, 11));
 		lbl_id			.setFont(font1);
 		lbl_name		.setFont(font1);
+		lbl_group		.setFont(font1);
 		lbl_date		.setFont(font1);
 		lbl_userName	.setFont(font1);
 		lbl_passwort	.setFont(font1);
@@ -223,6 +230,7 @@ public class GUI extends JFrame
 		lbl_TOTP		.setFont(font1);
 		lbl_TOTP_len	.setFont(font1);
 		txt_name		.setFont(font2);
+		txt_group		.setFont(font2);
 		txt_userName	.setFont(font2);
 		txt_passwort	.setFont(font2);
 		txt_description	.setFont(font2);
@@ -275,6 +283,7 @@ public class GUI extends JFrame
 		
 		btn_open		.setHorizontalAlignment(SwingConstants.LEFT);
 		btn_new			.setHorizontalAlignment(SwingConstants.LEFT);
+		txt_date		.setHorizontalAlignment(SwingConstants.RIGHT);
 		btn_plugIns		.setHorizontalAlignment(SwingConstants.LEFT);
 		btn_PWzeigen	.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbl_database	.setHorizontalAlignment(SwingConstants.RIGHT);	
@@ -283,6 +292,7 @@ public class GUI extends JFrame
 		Component horizontalStrut = Box.createHorizontalStrut(140);
 
 		txt_name		.setColumns(10);	
+		txt_group		.setColumns(10);	
 		txt_userName	.setColumns(10);
 		txt_passwort	.setColumns(10);
 		txt_url			.setColumns(10);
@@ -297,7 +307,11 @@ public class GUI extends JFrame
 		pnl_hauptfeld	.setVisible(false);
 		combo_filename	.setModel(new DefaultComboBoxModel(getKeyFilesName()));	
 		txt_info		.setText(progName+"                 Java KeyPass\r\nVersion:                "+version+"\r\nAuthor:                 "+autor+"\r\nWeb:                     https://github.com/MrMaxweII\r\nE-Mail:                  Maxwell-KSP@gmx.de\r\nPlugIn PubKey:     "+pubKeySig+"\r\nplease donate!\nBTC address:        12zeCvN7zbAi3JDQhC8tU3DBm35kDEUNiB");
-	
+		txt_group		.setToolTipText("Optionale Gruppe. Gruppiert alle Elemente mit dieser Gruppenbezeichnung in einen Ordner.");
+
+		
+		
+		
 		menuBar			.add(btn_open);		
 		menuBar			.add(btn_new);
 		menuBar			.add(btn_plugIns);
@@ -305,9 +319,11 @@ public class GUI extends JFrame
 		btn_info		.add(txt_info);
 		menuBar			.add(horizontalStrut);
 		contentPane		.add(panel_oben, BorderLayout.NORTH);		
-		pnl_h_oben		.add(lbl_name);		
+		pnl_h_oben		.add(lbl_name);	
+		pnl_h_oben		.add(lbl_group);		
 		pnl_h_oben		.add(lbl_date);	
 		pnl_h_oben		.add(txt_name);
+		pnl_h_oben		.add(txt_group);
 		pnl_h_oben		.add(lbl_userName);	
 		pnl_h_oben		.add(lbl_passwort);
 		pnl_h_oben		.add(lbl_url);	
@@ -353,9 +369,10 @@ public class GUI extends JFrame
 	    @Override
 	    public void windowClosing(java.awt.event.WindowEvent windowEvent) 
 	    {
-	    	GUI_Action.deleteClipboard();										// Zwischenablage wird gelöscht
-	    	File keyPng = new File("temp\\key.png"); keyPng.delete();			// Temp Daten werden gelöscht
-	    	File temp 	= new File("temp"); 		 temp.deleteOnExit();		// Temp Ordner wird gelöscht	    	
+	    	GUI_Action.deleteClipboard();											// Zwischenablage wird gelöscht
+	    	File keyPng     = new File("temp\\key.png");     keyPng.delete();		// Temp Daten werden gelöscht
+	    	File keyPngSmal = new File("temp\\keySmal.png"); keyPngSmal.delete();	// Temp Daten werden gelöscht
+	    	File temp 	= new File("temp"); 		 temp.deleteOnExit();			// Temp Ordner wird gelöscht	    	
 	    	System.exit(getDefaultCloseOperation());
 	    }
 	});			

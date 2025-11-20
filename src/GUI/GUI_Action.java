@@ -140,6 +140,7 @@ public static void run()
 			if(GUI.btn_edit.isSelected())
 			{
 				GUI.txt_name.setEditable(true);
+				GUI.txt_group.setEditable(true);
 				GUI.txt_userName.setEditable(true);
 				GUI.txt_url.setEditable(true);
 				GUI.txt_url.setForeground(Color.black);
@@ -159,6 +160,7 @@ public static void run()
 			else
 			{
 				GUI.txt_name.setEditable(false);
+				GUI.txt_group.setEditable(false);
 				GUI.txt_userName.setEditable(false);
 				GUI.txt_url.setEditable(false);
 				GUI.txt_url.setForeground(Color.blue);
@@ -213,7 +215,7 @@ public static void run()
 			try 
 			{
 				checkFormular();
-				KeyData.add(GUI.txt_name.getText(), GUI.txt_userName.getText(), new String(GUI.txt_passwort.getPassword()), GUI.txt_description.getText(), getDate(), GUI.txt_url.getText(), GUI.txt_TOTP_Secret.getText(), GUI.txt_TOTP_len.getText());
+				KeyData.add(GUI.txt_name.getText(), GUI.txt_group.getText(), GUI.txt_userName.getText(), new String(GUI.txt_passwort.getPassword()), GUI.txt_description.getText(), getDate(), GUI.txt_url.getText(), GUI.txt_TOTP_Secret.getText(), GUI.txt_TOTP_len.getText());
 				GUI.txt_meldung.setText("Neuer Eintrag wurde gespeichert.");
 				GUI.pnl_hauptfeld.setVisible(false);					
 				clearFormular();
@@ -236,7 +238,7 @@ public static void run()
 			try 
 			{			
 				checkFormular();
-				KeyData.toChange(Integer.parseInt(GUI.txt_id.getText()), GUI.txt_name.getText(), GUI.txt_userName.getText(), new String(GUI.txt_passwort.getPassword()), GUI.txt_description.getText(), getDate(), GUI.txt_url.getText(), GUI.txt_TOTP_Secret.getText(), GUI.txt_TOTP_len.getText());			
+				KeyData.toChange(Integer.parseInt(GUI.txt_id.getText()), GUI.txt_name.getText(), GUI.txt_group.getText(), GUI.txt_userName.getText(), new String(GUI.txt_passwort.getPassword()), GUI.txt_description.getText(), getDate(), GUI.txt_url.getText(), GUI.txt_TOTP_Secret.getText(), GUI.txt_TOTP_len.getText());			
 				GUI.txt_meldung.setText("Änderungen wurden gespeichert.");
 				GUI.pnl_hauptfeld.setVisible(false);					
 				clearFormular();
@@ -405,8 +407,10 @@ public static void run()
 	// Eingabeformular wird geleert.
 	private static void clearFormular()
 	{
+		GUI.lbl_id.setIcon(null);
 		GUI.txt_id.setText("-1");
 		GUI.txt_name.setText("");
+		GUI.txt_group.setText("");
 		GUI.txt_date.setText("");
 		GUI.txt_userName.setText("");
 		GUI.txt_passwort.setText("");
