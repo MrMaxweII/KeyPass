@@ -191,7 +191,6 @@ public static byte[] decrypt(byte[] chiffre, byte[] key, String name) throws Exc
 
 
 
-
 /**	Entfernt den vorranstehenden SHA256 Hash von "data" und gibt die Daten getrennt zurück.
 @param data Daten mit vorranstehenden SHA256 Hash
 @return Es werden 3 ByteArrays zurück gegeben:

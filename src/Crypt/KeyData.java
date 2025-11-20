@@ -15,8 +15,8 @@ import GUI.GUI;
 
 
 /***************************************************************************************************************************************
-*	Autor: Mr. Maxwell						Version 1.4						04.09.2023													*
-*	Letzte Änderung:	TOTP Datensatz hinzugafügt																						*
+*	Autor: Mr. Maxwell						Version 1.5						31.05.2025													*
+*	Letzte Änderung:	Datensatz: "Gruppe" hinzugefügt!																				*
 *	Öffnet, speichert und ändert die ***.key Schlüssel-Datenbank für den KeyPass														*	
 *																																		*
 *	Diese Klasse übernimmt die Implementierung der verschlüsselten Datenbank auf oberer Ebene.											*
@@ -32,6 +32,7 @@ import GUI.GUI;
 *  "list": 																																*
 *  [{																																	*
 *      "ApplicationName"	: "Blumen-Forum",																							*
+*      "Gruppe"				: "Forum",																									*
 *      "UserName"     		: "MaxMusstermann",																							*
 *      "Password"    		: "123456789ABC",																							*
 *      "Description"		: "Zusätzliche Informationen Optional",																		*
@@ -42,7 +43,7 @@ import GUI.GUI;
 *    }]																																	*
 * }																																		*
 * 																																		*
-*																																		*
+* - "Gruppe"			Name einer Gruppe für eine optionale Gruppierung. (optional)													*
 * - "pwHash" 			ist ein 32Byte SHA256² Hex-String des Passwortes mit dem diese Datei verschlüsselt wurde						*
 * - "list" 				Stellt die Key-Datenbank dar. JSON-Array																		*
 * - "ApplicationName"	Der Inhalt darf nur einmal vorkommen und wird als Schlüsselwert für die entsprechende Applikation verwendet		*
@@ -111,13 +112,14 @@ public static void open() throws Exception
 
 /**	Hängt einen neuen Datenbank Eintrag hinten an.
 	Dazu wird der Crypt-Dialog geöffnet und wenn alles korrekt ist, wird die Datenbank neu verschlüsselt und auf HDD abgespeichert. **/
-public static void add(String applicationName, String userName, String passwort, String description, String date, String url, String totpKey, String totpLen) throws Exception
+public static void add(String applicationName, String group, String userName, String passwort, String description, String date, String url, String totpKey, String totpLen) throws Exception
 {
 	if(isDuplicateAddress(applicationName,-1))  	throw new IOException("Name der Anwendung existiert bereits!");
 	databaseToSave = clone(databaseLoaded);
 	JSONArray ja = databaseToSave.getJSONArray("list");
 	JSONObject jo = new JSONObject();
 	jo.put("ApplicationName",	applicationName);
+	jo.put("Gruppe",			group);
 	jo.put("UserName", 			userName);
 	jo.put("Password", 			new String(passwort));
 	jo.put("Description",		description);
@@ -133,12 +135,13 @@ public static void add(String applicationName, String userName, String passwort,
 
 /**	Ändert den Datenbankeintrag mit der Nummer "id".
 	Dazu wird der Crypt-Dialog geöffnet und wenn alles korrekt ist, wird die Datenbank neu verschlüsselt und auf HDD abgespeichert. **/
-public static void toChange(int id, String applicationName, String userName, String passwort, String description, String date, String url, String totpKey, String totpLen) throws Exception
+public static void toChange(int id, String applicationName, String group, String userName, String passwort, String description, String date, String url, String totpKey, String totpLen) throws Exception
 {
 	if(isDuplicateAddress(applicationName,id))  	throw new IOException("Name der Anwendung existiert bereits!");
 	databaseToSave = clone(databaseLoaded);
 	JSONArray ja = databaseToSave.getJSONArray("list");
 	ja.getJSONObject(id).put("ApplicationName",	applicationName);
+	ja.getJSONObject(id).put("Gruppe",			group);
 	ja.getJSONObject(id).put("UserName", 		userName);
 	ja.getJSONObject(id).put("Password",		passwort);
 	ja.getJSONObject(id).put("Description",		description);
