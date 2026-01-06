@@ -36,7 +36,7 @@ import javax.swing.border.EmptyBorder;
 
 
 /***********************************************************************************
-*	Version 1.5 					Autor: Mr. Maxwell				31.05.2025		*
+*	Version 1.6 					Autor: Mr. Maxwell				17.12.2025		*
 *	Letzte Änderung: JList durch JTree ersetzt und diverse Anpassungen dazu.		*
 *	Dadurch können Einträge nun gruppiert werden.									*
 *	Diese Klasse ist Teil der GUI des KeyPass										*
@@ -52,7 +52,7 @@ class GUI_KeyList extends JFrame
 	GUI_KeyList(int x, int y) throws Exception 
 	{
 		setTitle("Anwendung Auswählen");
-		setIconImage(Toolkit.getDefaultToolkit().getImage("temp\\key.png"));
+		setIconImage(Toolkit.getDefaultToolkit().getImage("temp/key.png"));
 		setBounds(x, y, 380, 430);
 		
 		
@@ -205,7 +205,7 @@ class GUI_KeyList extends JFrame
 			}
 			JSONObject jo = ja.getJSONObject(selectedIndex);	
 			GUI.txt_id.setText(String.valueOf(selectedIndex));
-			GUI.lbl_id.setIcon(new ImageIcon("icons\\"+jo.getString("ApplicationName")+".png"));
+			GUI.lbl_id.setIcon(new ImageIcon("icons/"+jo.getString("ApplicationName")+".png"));
 			GUI.txt_name.setText(jo.getString("ApplicationName"));
 			try{GUI.txt_group.setText(jo.getString("Gruppe"));}				// Da "Gruppe" erst ab Version 1.3.3 im Datensatz hinzugefügt wurde, ist diese try-Abfrage hier nötig.
 			catch(JSONException e4)											// Wenn "Gruppe" nicht im JSON enthalten ist, wird ein Leerstring in das Feld geschrieben.		

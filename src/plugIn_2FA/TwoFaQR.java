@@ -42,7 +42,7 @@ import GUI.GUI;
 
 
 /****************************************************************************************************************
-* Mr. Maxwell																				14.03.2023			*
+* Mr. Maxwell																				15.12.2025			*
 * 2FA-QR PlugIn für den KeyPass																					*
 * Beschreibung: "Info PlugIn.txt"																				*
 *																												*
@@ -168,7 +168,7 @@ public class TwoFaQR implements Plugins
 
 			Toolkit.getDefaultToolkit().setDynamicLayout(false);			// Layout Darstellung muss geändert werden, damit die dynamische Größenänderung des QrCodes problemlos läuft.
 			mainFrame.setTitle(name);
-			mainFrame.setIconImage(Toolkit.getDefaultToolkit().getImage("temp\\key.png"));
+			mainFrame.setIconImage(Toolkit.getDefaultToolkit().getImage("temp/key.png"));
 			mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);		
 			mainFrame.getContentPane().setLayout(new BorderLayout(0, 0));
 			mainFrame.getContentPane().add(panel_0, BorderLayout.CENTER);
@@ -395,7 +395,7 @@ public class TwoFaQR implements Plugins
 	// Sind die Settings noch nicht enthalten, werden sie erstellt und die default Settings eingestellt.
 	private static void loadSettings() throws Exception
 	{
-		BufferedReader br = new BufferedReader(new FileReader("plugins\\"+name+".plugin"));
+		BufferedReader br = new BufferedReader(new FileReader("plugins/"+name+".plugin"));
 		String str = "";
 		while(br.ready())	str += br.readLine()+"\n";			
 		br.close(); 		
@@ -416,7 +416,7 @@ public class TwoFaQR implements Plugins
 	// Speichert die Settings in die PlugIn datei (JSON-Format) 
 	private static void saveSettings() throws Exception
 	{
-		BufferedWriter bw = new BufferedWriter(new FileWriter("plugins\\"+name+".plugin"));
+		BufferedWriter bw = new BufferedWriter(new FileWriter("plugins/"+name+".plugin"));
 		bw.write(joPlugIn.toString(1));
 		bw.close();
 	}

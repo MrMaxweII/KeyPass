@@ -28,7 +28,7 @@ public class MyTreeCellRenderer extends DefaultTreeCellRenderer
 		{
 			DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
 			String nodeName = node.toString();								// Entspricht dem "ApplicationName" der jeweiligen Anwendung aus der JSON Datei, bzw. dem Text der im JTree angezeigt wird.
-			File iconFile = new File("icons\\"  + nodeName + ".png");		// Verzeichnis des jeweiligen Icons das ausgewählt wird.
+			File iconFile = new File("icons/"  + nodeName + ".png");		// Verzeichnis des jeweiligen Icons das ausgewählt wird.
 			
 			if(iconFile.exists())
 			{
@@ -36,7 +36,7 @@ public class MyTreeCellRenderer extends DefaultTreeCellRenderer
 			}
 			else
 			{
-				setIcon(new ImageIcon("temp\\keySmal.png"));
+				setIcon(new ImageIcon("temp/keySmal.png"));
 			}
 		}
 		return c;

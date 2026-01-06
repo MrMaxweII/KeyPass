@@ -58,7 +58,7 @@ public class GUI extends JFrame
 {
 
 	public static final String			progName		= "KeyPass";
-	public static final String			version 		= "V1.4.1";
+	public static final String			version 		= "V1.4.2";
 	public static final String			autor 			= "Mr. Maxwell";
 	public static final String			pubKeySig		= "03291251a267e24ed362241cdaba7c953a52b295c81f92e7fd10df665a6b000441";	 // Der Public-Key für die Signaturprüfung von PlugIns (final)
 	public static 		GUI 			frame;															// Frame dieser GUI
@@ -137,8 +137,8 @@ public class GUI extends JFrame
 		File plugInsFolder 	= new File("plugins");
 		temp.mkdir();
 		plugInsFolder.mkdir();
-		Icons.saveAsPNG(Icons.keyPNG,     "temp\\key.png");
-		Icons.saveAsPNG(Icons.keyPNGsmal, "temp\\keySmal.png");
+		Icons.saveAsPNG(Icons.keyPNG,     "temp/key.png");
+		Icons.saveAsPNG(Icons.keyPNGsmal, "temp/keySmal.png");
 	}
 	
 	
@@ -162,7 +162,7 @@ public class GUI extends JFrame
 		JScrollPane sp_description 	= new JScrollPane();
 	
 		setTitle(progName+"     "+version);	
-		setIconImage(Toolkit.getDefaultToolkit().getImage("temp\\key.png"));
+		setIconImage(Toolkit.getDefaultToolkit().getImage("temp/key.png"));
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setMinimumSize(new Dimension(605, 485));
 		setJMenuBar(menuBar);
@@ -370,8 +370,8 @@ public class GUI extends JFrame
 	    public void windowClosing(java.awt.event.WindowEvent windowEvent) 
 	    {
 	    	GUI_Action.deleteClipboard();											// Zwischenablage wird gelöscht
-	    	File keyPng     = new File("temp\\key.png");     keyPng.delete();		// Temp Daten werden gelöscht
-	    	File keyPngSmal = new File("temp\\keySmal.png"); keyPngSmal.delete();	// Temp Daten werden gelöscht
+	    	File keyPng     = new File("temp/key.png");     keyPng.delete();		// Temp Daten werden gelöscht
+	    	File keyPngSmal = new File("temp/keySmal.png"); keyPngSmal.delete();	// Temp Daten werden gelöscht
 	    	File temp 	= new File("temp"); 		 temp.deleteOnExit();			// Temp Ordner wird gelöscht	    	
 	    	System.exit(getDefaultCloseOperation());
 	    }
