@@ -9,9 +9,10 @@ import javax.swing.JTextArea;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import BTClib3001.Calc;
-import BTClib3001.Convert;
-import BTClib3001.Secp256k1;
+import lib3001.crypt.Calc;
+import lib3001.crypt.Convert;
+import lib3001.ecdsa.Secp256k1;
+import lib3001.java.MyClassLoader;
 import plugIn_2FA.TwoFaQR;
 
 

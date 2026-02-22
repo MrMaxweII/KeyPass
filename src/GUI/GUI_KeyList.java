@@ -2,7 +2,6 @@ package GUI;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -52,10 +51,9 @@ class GUI_KeyList extends JFrame
 	GUI_KeyList(int x, int y) throws Exception 
 	{
 		setTitle("Anwendung Auswählen");
-		setIconImage(Toolkit.getDefaultToolkit().getImage("temp/key.png"));
+		setIconImage(MyIcons.keysmal.getImage());
 		setBounds(x, y, 380, 430);
-		
-		
+			
 		JPanel 					contentPane = new JPanel();
 		JPanel 					pnl_oben 	= new JPanel();
 		JScrollPane 			scrollPane 	= new JScrollPane();
@@ -81,9 +79,7 @@ class GUI_KeyList extends JFrame
 		contentPane	.add(scrollPane, BorderLayout.CENTER);
 		
 		
-		
 
-		
 		
 // ---------------------------------------------------------- Hier wird der Tree implementiert -------------------------------------------------------------	
 		

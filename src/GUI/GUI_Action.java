@@ -14,18 +14,21 @@ import java.io.IOException;
 import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import org.json.JSONException;
-import BTClib3001.TOTP;
 import Crypt.KeyData;
 import PWGenerator.PWGenerator;
+import lib3001.crypt.TOTP;
 
 
 
-/***********************************************
+/************************************************
  * Alle ActionListenders für die GUI 			*
  ************************************************/
 
@@ -34,7 +37,9 @@ import PWGenerator.PWGenerator;
 public class GUI_Action 
 {
 
-	
+	final static   int clipboardTimeOut = 10;										// Nach dieser Zeit in Sekunden, wird die Zwischenablage in Passwortfeldern gelöscht
+	private static  AtomicInteger  clipboardCounter = new AtomicInteger(10);;		// Der Zwischenablagen Counter der bis zu Time-Out zählt um die Zwischenablage danach zu löschen.	
+
 	
 	
 public static void run()
@@ -99,6 +104,9 @@ public static void run()
 			copyToClipboard(GUI.txt_userName.getText());
 			GUI.txt_userName.setForeground(Color.blue);
 			GUI.txt_passwort.setForeground(Color.black);
+			GUI.progress.setBounds(10, 132, 39, 10);
+			GUI.progress.setValue(100);
+			GUI.progress.setVisible(true);
 		}
 	});		
 		
@@ -111,6 +119,9 @@ public static void run()
 			copyToClipboard(new String(GUI.txt_passwort.getPassword()));
 			GUI.txt_passwort.setForeground(Color.blue);	
 			GUI.txt_userName.setForeground(Color.black);
+			GUI.progress.setBounds(314, 132, 39, 10);
+			GUI.progress.setValue(100);
+			GUI.progress.setVisible(true);
 		}
 	});
 		
@@ -344,12 +355,8 @@ public static void run()
 				catch(IOException e1) {GUI.btn_TOTP.setVisible(false);}
 			}
 		}
-	});
-	
-	
+	});	
 }
-
-
 
 
 
@@ -363,21 +370,78 @@ public static void run()
 	public static void deleteClipboard()
 	{
 		System.out.println("Löschvorgang Zwischenablage");
-		Clipboard clip = Toolkit.getDefaultToolkit().getSystemClipboard(); 
-		clip.setContents(new StringSelection(""), null);	
+		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard(); 
+		clipboard.setContents(new StringSelection(""), null);
 	}
 	
 //----------------------------------------- Private Methoden -------------------------------------------------------------//
 
 	
+	
+	
+	
+	
+	
 	// Kopiert den übergebenen String in die Zwischenablage
+	// Der Inhalt der Zwischenablage wird dann nach 10sec. automatisch gelöscht.
 	private static void copyToClipboard(String s)
 	{
-		Clipboard clip = Toolkit.getDefaultToolkit().getSystemClipboard(); 
+		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard(); 
 		StringSelection str = new StringSelection(s);
-		clip.setContents(str, null);
+		clipboard.setContents(str, null);
+		
+		int current = clipboardCounter.get();
+		if (current < clipboardTimeOut)
+		{
+		    if (clipboardCounter.compareAndSet(current, 0))
+		    {
+		        return; 
+		    }
+		}	
+		// @Thread   Alle GUI Anpassungen sind in der EDT!
+		new Thread(new Runnable() 
+		{
+			public void run()
+			{		
+				try
+				{	
+					clipboardCounter .set(0);;
+					while(clipboardCounter.get() < clipboardTimeOut)
+					{
+						Thread.sleep(1000);
+						clipboardCounter.incrementAndGet();
+						SwingUtilities.invokeLater(new Runnable() 
+						{
+							public void run()
+							{
+								GUI.progress.setValue((clipboardTimeOut - clipboardCounter.get()) * 10);
+							}	
+						});
+					}
+					clipboard.setContents(new StringSelection(""), null);
+					SwingUtilities.invokeLater(new Runnable() 
+					{
+						public void run()
+						{
+							GUI.txt_userName.setForeground(Color.black);
+							GUI.txt_passwort.setForeground(Color.black);
+							GUI.progress.setVisible(false);
+							System.out.println("Zwischenablage gelöscht!");
+						}
+					});			
+				} 
+				catch (Exception e)
+				{
+					e.printStackTrace();
+				}
+			}
+		}).start();	
 	}
 		
+	
+
+	
+	
 	
 	// Gibt das aktuelle Datum in der gewünschen Form zurück.
 	private static String getDate()

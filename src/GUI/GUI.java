@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JProgressBar;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -18,6 +19,7 @@ import javax.swing.JTextArea;
 import javax.swing.JButton;
 import java.awt.FlowLayout;
 import javax.swing.border.LineBorder;
+import lib3001.java.BackgroundPanel;
 import plugInAPI.RegPlugins;
 import javax.swing.JScrollPane;
 import javax.swing.border.BevelBorder;
@@ -30,7 +32,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
-import java.awt.Toolkit;
 import javax.swing.JMenu;
 
 
@@ -58,7 +59,7 @@ public class GUI extends JFrame
 {
 
 	public static final String			progName		= "KeyPass";
-	public static final String			version 		= "V1.4.2";
+	public static final String			version 		= "V1.4.3";
 	public static final String			autor 			= "Mr. Maxwell";
 	public static final String			pubKeySig		= "03291251a267e24ed362241cdaba7c953a52b295c81f92e7fd10df665a6b000441";	 // Der Public-Key für die Signaturprüfung von PlugIns (final)
 	public static 		GUI 			frame;															// Frame dieser GUI
@@ -93,10 +94,11 @@ public class GUI extends JFrame
 	public static		JButton 		btn_TOTP 		= new JButton("TOTP Einmal-Passwort ausgeben");	// TOPT Einmalpasswort
 	public static		JRadioButton 	btn_edit 		= new JRadioButton("Ändern");					// Eintrag ändern 
 	public static		JRadioButton 	btn_PWzeigen 	= new JRadioButton("Passwort Zeigen");			// Passwort anzeigen
+	public static 		JProgressBar	progress		= new JProgressBar();							// Wartebalken des Löschens der Zwischenablage 
 	public static		Color 			color1 			= new Color(255, 235, 228); 					// Farbe hell rot  des Hintergrundes
 	public static 		Color 			color2 			= new Color(100, 100, 100);						// Farbe hell grau aller Labels für die Textfelder	
 	public static 		Color 			color3			= new Color(240, 240, 240);						// Formularfarbe gesperrt (grau)
-
+	public static 		Color			color4			= new Color(218,129,71);						// Hintergrundfarbe 
 	
 
 		
@@ -128,27 +130,22 @@ public class GUI extends JFrame
 	
 
 	// Diese Methode starte als erstes befor die GUI startet. Alle Aufgaben bei Programstart 
-	// - erstellt benötigte Resourcen, temp Ordner mit icons, plugIn Ordner etc.
+	// - erstellt benötigte Resourcen, plugIn Ordner etc.
 	// Wenn diese Resourcen nicht vorhanden sind, werden sie neu erstllt.	
-	// Im temp-Ordner werden die Icons gespeichert und zur laufzeit geladen. Der temp Ordner wird bei Programm-Ende wieder gelöscht.
 	private static void setup() throws IOException 
 	{
-		File temp 	= new File("temp");
 		File plugInsFolder 	= new File("plugins");
-		temp.mkdir();
 		plugInsFolder.mkdir();
-		Icons.saveAsPNG(Icons.keyPNG,     "temp/key.png");
-		Icons.saveAsPNG(Icons.keyPNGsmal, "temp/keySmal.png");
 	}
 	
 	
 	
 	public GUI() throws Exception 
-	{		
-		JPanel 		contentPane 	= new JPanel();
+	{			
+		BackgroundPanel 		contentPane 	= new BackgroundPanel(MyIcons.background.getImage() ,0);
 		JPanel 		panel_oben 		= new JPanel();
 		JMenuBar 	menuBar 		= new JMenuBar();	
-		JMenu 		btn_info 		= new JMenu(" Info ? ");
+		JMenu 		btn_info 		= new JMenu(" Info ");
 		JTextArea 	txt_info 		= new JTextArea();
 		JLabel 		lbl_key 		= new JLabel(".key");
 		JLabel 		lbl_database 	= new JLabel("Datenbank Name:  ");	
@@ -162,13 +159,25 @@ public class GUI extends JFrame
 		JScrollPane sp_description 	= new JScrollPane();
 	
 		setTitle(progName+"     "+version);	
-		setIconImage(Toolkit.getDefaultToolkit().getImage("temp/key.png"));
+		setIconImage(MyIcons.keysmal.getImage());
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setMinimumSize(new Dimension(605, 485));
 		setJMenuBar(menuBar);
 		setBounds(100, 100, 609, 530);
-		setContentPane(contentPane);	
+		setContentPane(contentPane);
 		
+		btn_new			.setIcon(MyIcons.newData);
+		btn_open		.setIcon(MyIcons.open);
+		btn_plugIns		.setIcon(MyIcons.plugin);
+		btn_info		.setIcon(MyIcons.info);
+		btn_clear		.setIcon(MyIcons.delete);
+		btn_saveChange	.setIcon(MyIcons.save);
+		btn_saveNew		.setIcon(MyIcons.save);
+
+		btn_clear		.setIconTextGap(10);
+		btn_saveChange	.setIconTextGap(10);
+		btn_saveNew		.setIconTextGap(10);
+
 		lbl_id			.setBounds(10, 2, 39, 16);
 		lbl_name		.setBounds(10, 31, 295, 14);
 		lbl_group		.setBounds(314, 31, 260, 14);
@@ -193,11 +202,13 @@ public class GUI extends JFrame
 		btn_PWGenerator	.setBounds(433, 135, 141, 18);
 		btn_PWzeigen	.setBounds(433, 116, 141, 14);		
 		btn_edit		.setBounds(6, 7, 81, 23);
-		btn_clear		.setBounds(93, 7, 81, 22);
-		btn_saveChange	.setBounds(392, 7, 181, 22);
-		btn_saveNew		.setBounds(317, 7, 256, 22);	
+		btn_clear		.setBounds(93, 7, 95, 24);
+		btn_saveChange	.setBounds(392, 7, 181, 24);
+		btn_saveNew		.setBounds(317, 7, 256, 24);	
 		btn_TOTP		.setBounds(10, 195, 184, 20);
-
+		progress		.setBounds(10, 132, 39, 10);
+		
+		menuBar			.setBackground(color4);
 		pnl_h_oben		.setBackground(color3);
 		lbl_id			.setForeground(color2);
 		lbl_name		.setForeground(color2);
@@ -213,13 +224,15 @@ public class GUI extends JFrame
 		txt_meldung		.setForeground(Color.RED);	
 		txt_meldung		.setBackground(color1);
 		contentPane		.setBackground(color1);
-		panel_oben		.setBackground(color1);
-
+		panel_oben		.setBackground(color1);	
+		
 		Font font1		= new Font("Arial", Font.PLAIN,11);			// Schriftart der Labels im Hauptfeld
 		Font font2		= new Font("Bahnschrift", Font.PLAIN, 13);	// Schriftart für Textfelder
 		
 		combo_filename	.setFont(new Font("Arial", Font.PLAIN, 11));
 		lbl_id			.setFont(font1);
+		lbl_key			.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		lbl_database	.setFont(new Font("Segoe UI", Font.BOLD, 14));	
 		lbl_name		.setFont(font1);
 		lbl_group		.setFont(font1);
 		lbl_date		.setFont(font1);
@@ -249,7 +262,6 @@ public class GUI extends JFrame
 		btn_PWGenerator	.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btn_TOTP		.setFont(new Font("Tahoma", Font.PLAIN, 10));
 
-
 		contentPane	 	.setBorder(new EmptyBorder(5, 5, 5, 5));
 		btn_open	 	.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 		btn_new		 	.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
@@ -258,7 +270,7 @@ public class GUI extends JFrame
 		pnl_hauptfeld	.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 		pnl_h_mitte		.setBorder(new LineBorder(new Color(240, 240, 240), 7));
 		sp_description	.setBorder(new LineBorder(SystemColor.inactiveCaption));
-		txt_meldung		.setBorder(new LineBorder(color1, 7));
+		txt_meldung		.setBorder(new EmptyBorder(3,7,1,3));
 
 		contentPane	 	.setLayout(new BorderLayout(0, 0));
 		panel_oben		.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
@@ -305,12 +317,13 @@ public class GUI extends JFrame
 		txt_info		.setEditable(false);
 		sp_description	.setViewportView(txt_description);	
 		pnl_hauptfeld	.setVisible(false);
+		progress		.setVisible(false);
 		combo_filename	.setModel(new DefaultComboBoxModel(getKeyFilesName()));	
 		txt_info		.setText(progName+"                 Java KeyPass\r\nVersion:                "+version+"\r\nAuthor:                 "+autor+"\r\nWeb:                     https://github.com/MrMaxweII\r\nE-Mail:                  Maxwell-KSP@gmx.de\r\nPlugIn PubKey:     "+pubKeySig+"\r\nplease donate!\nBTC address:        12zeCvN7zbAi3JDQhC8tU3DBm35kDEUNiB");
 		txt_group		.setToolTipText("Optionale Gruppe. Gruppiert alle Elemente mit dieser Gruppenbezeichnung in einen Ordner.");
 
-		
-		
+		btn_info		.setOpaque(true);
+		btn_plugIns		.setOpaque(true);		
 		
 		menuBar			.add(btn_open);		
 		menuBar			.add(btn_new);
@@ -342,6 +355,7 @@ public class GUI extends JFrame
 		pnl_h_oben		.add(lbl_TOTP);
 		pnl_h_oben		.add(txt_TOTP_len);
 		pnl_h_oben		.add(lbl_TOTP_len);
+		pnl_h_oben		.add(progress);
 		contentPane		.add(pnl_hauptfeld, BorderLayout.CENTER);
 		pnl_hauptfeld	.add(pnl_h_oben, BorderLayout.NORTH);				
 		pnl_hauptfeld	.add(pnl_h_mitte, BorderLayout.CENTER);
@@ -369,10 +383,7 @@ public class GUI extends JFrame
 	    @Override
 	    public void windowClosing(java.awt.event.WindowEvent windowEvent) 
 	    {
-	    	GUI_Action.deleteClipboard();											// Zwischenablage wird gelöscht
-	    	File keyPng     = new File("temp/key.png");     keyPng.delete();		// Temp Daten werden gelöscht
-	    	File keyPngSmal = new File("temp/keySmal.png"); keyPngSmal.delete();	// Temp Daten werden gelöscht
-	    	File temp 	= new File("temp"); 		 temp.deleteOnExit();			// Temp Ordner wird gelöscht	    	
+	    	GUI_Action.deleteClipboard();											// Zwischenablage wird gelöscht	     	
 	    	System.exit(getDefaultCloseOperation());
 	    }
 	});			

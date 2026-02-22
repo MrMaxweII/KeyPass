@@ -7,7 +7,7 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.JLabel;
-import BTClib3001.Calc;
+import lib3001.crypt.Calc;
 
 
 

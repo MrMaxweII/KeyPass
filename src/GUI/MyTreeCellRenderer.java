@@ -36,7 +36,7 @@ public class MyTreeCellRenderer extends DefaultTreeCellRenderer
 			}
 			else
 			{
-				setIcon(new ImageIcon("temp/keySmal.png"));
+				setIcon(MyIcons.keysmal);
 			}
 		}
 		return c;

@@ -1,5 +1,20 @@
 package plugIn_2FA;
-import org.json.JSONObject;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.SystemColor;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -12,32 +27,27 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenuItem;
-import javax.swing.JTextField;
-import javax.swing.JTextPane;
-import javax.swing.SwingConstants;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JRadioButton;
-import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JTextPane;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
-import java.awt.image.BufferedImage;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.SystemColor;
-import java.awt.Toolkit;
-import java.awt.event.*;
-import BTClib3001.Calc;
-import BTClib3001.Convert;
-import BTClib3001.Secp256k1;
+import org.json.JSONObject;
 import Crypt.CryptDialog;
-import plugInAPI.Plugins;
 import GUI.GUI;
+import GUI.MyIcons;
+import lib3001.crypt.Calc;
+import lib3001.crypt.Convert;
+import lib3001.ecdsa.Secp256k1;
+import lib3001.qrCode.QRCodeZXING;
+import lib3001.qrCode.QrCapture;
+import plugInAPI.Plugins;
 
 
 
@@ -60,7 +70,7 @@ public class TwoFaQR implements Plugins
 {
 	
 	final static 	String 			name 	= "TwoFaQR";					// Name des PlugIns
-	final static 	String 			version = "1.0.0";						// PlugIn version
+	final static 	String 			version = "1.0.1";						// PlugIn version
 	private static 	JMenuItem 		menu1;									// Das PlugIn Menü-Item in der Menü-Zeile oben
     private static 	JRadioButton 	btn_1 		= new JRadioButton(""); 	// Schaltet das PlugIn Ein oder Aus
     private static 	JTextPane 		txt_meldung = new JTextPane();			// Fehlermeldungen etc.
@@ -168,7 +178,7 @@ public class TwoFaQR implements Plugins
 
 			Toolkit.getDefaultToolkit().setDynamicLayout(false);			// Layout Darstellung muss geändert werden, damit die dynamische Größenänderung des QrCodes problemlos läuft.
 			mainFrame.setTitle(name);
-			mainFrame.setIconImage(Toolkit.getDefaultToolkit().getImage("temp/key.png"));
+			mainFrame.setIconImage(MyIcons.keysmal.getImage());
 			mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);		
 			mainFrame.getContentPane().setLayout(new BorderLayout(0, 0));
 			mainFrame.getContentPane().add(panel_0, BorderLayout.CENTER);
@@ -289,7 +299,7 @@ public class TwoFaQR implements Plugins
 						{														
 							try
 							{
-								QrCapture qr = new QrCapture(mainFrame.getX()+50, mainFrame.getY()+80);							
+								QrCapture qr = new QrCapture(null,"",mainFrame.getX()+50, mainFrame.getY()+80);							
 								String p2 = qr.getResult();
 								qr.close();								
 								if(p2.equals("")) throw new IOException("Benutzer Abbruch");								
@@ -327,7 +337,7 @@ public class TwoFaQR implements Plugins
 		 frame.setBounds(frame.getX()-48, frame.getY()+13, 500, 440);
 		 frame.setVisible(true); 
 	     frame.setTitle(name+"   Version: "+version);     
-		 frame.setIconImage(Toolkit.getDefaultToolkit().getImage("temp\\key.png"));
+		 frame.setIconImage(MyIcons.keysmal.getImage());
 	     panel.setLayout(null);
 	     txt_info.setBackground(new Color(255, 248, 220));
 	     txt_info.setBorder(new EmptyBorder(3, 5, 3, 2));
