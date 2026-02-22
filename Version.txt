@@ -25,31 +25,34 @@ V1.3.0		TOTP: Time-Based One-Time Password (RFC6238) hinzugefügt.
 			
 			
 V1.3.1		Kleinen Bug in der GUI gefixt:
-			Wenn ein neuer Eintrag erstellt wird, war der TOTP-Button sichtbar und aktiv, obwohl das Eingabefeld TOTP_Secret noch leer ist.
-			Der TOTP Algorithmus erzeugt bei einem leerem TOTP-Secret Feld dennoch einen gültigen Code, was sehr ungünstig ist.
-			Eine leeres TOTP_Secret Feld muss aber weiterhin möglich sein, da nicht jeder Eintrag TOTP aktiviert.
+			Wenn ein neuer Eintrag erstellt wird, war der TOTP-Button sichtbar und aktiv, 
+			obwohl das Eingabefeld TOTP_Secret noch leer ist.
+			Der TOTP Algorithmus erzeugt bei einem leerem TOTP-Secret Feld dennoch einen gültigen Code, 
+			was sehr ungünstig ist.
+			Eine leeres TOTP_Secret Feld muss aber weiterhin möglich sein, 
+			da nicht jeder Eintrag TOTP aktiviert.
 			
 V1.3.2		Klasse "GUI_KeyList" Sortierung der KeyListe wurde korrigiert.
-			Die Liste wird nun auch richtig sortiert, wenn Groß und Klein Buchstaben im Schlüsselwort verwendet werden.
+			Die Liste wird nun auch richtig sortiert, 
+			wenn Groß und Klein Buchstaben im Schlüsselwort verwendet werden.
 
 			
 V1.4.0		Gruppierung von Akkounds
 			JTree gegen JList in der Auswahl ersetzt.													
-			Datensatz "Gruppe" hizugefügt. Dadurch wird dieser Datensatz im JTree in einem Order mit dem Gruppennamen grupiert.
+			Datensatz "Gruppe" hizugefügt. 
+			Dadurch wird dieser Datensatz im JTree in einem Order mit dem Gruppennamen grupiert.
 			Auswahlfenster wurde mit Infos erweitert.																		
 
 			
 V1.4.1		Auswahlfenster Größe wurde automatisiert.
-			Icons für alle Accounds können im Ordner "icons" mit dem ApplikationsName.png (16x16 pxl) gespeichert werden. 
+			Icons für alle Accounds können im Ordner "icons" 
+			mit dem ApplikationsName.png (16x16 pxl) gespeichert werden. 
 			Diese Icons werden dann im JTree und im Accound-Fenster angezeigt.
 			
-			
-			
-			
-Wunschliste:
-- Icon für jeden Accound aus dem Internet laden und im JTree anzeigen. (In Bearbeitung in V1.4.1 ist der erste Teil implementiert) 
-- KeyPass nach einer Zeit automatisch schließen. (Vorerst abgelehnt, da ein selbstständiges schließen zu Datenverlusst führen könnte) 
-- Benutzerdaten automatisch in Browser einfügen. (Sehr Aufwändig, da es keine API´s gibt. Ist nur mit Browser-PlugIns und einer speziellen Verbindung möglich)
-- Syncornisierung von 2 .key Datein. So dass der jeweilige neuste übernommen wird.
-- Machbarkeit einer Handy Version ermitteln. Berechnungszeit der Entschlüsselung auf dem Handy testen. 	
-- Syncroniseirung durch einen online-Server der .key Datein verwaltet																
+V1.4.2		Icons sind nun auch unter Linux sichtbar.			
+
+V1.4.3		Klassen aus lib3001 Implementiert																
+			Programm-Icons werden nun nicht mehr aus Temp-Ordner erstellt,
+			sondern in der MyIcons-Klasse Implementiert
+			Icons für Buttons hinzugefügt 
+			Zwischenablage, wird nach 10s gelöscht
